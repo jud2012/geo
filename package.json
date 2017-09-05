@@ -1,0 +1,21 @@
+{
+  "name": "geo",
+  "version": "1.0.0",
+  "description": "geo restful application",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.15.4",
+    "node-geocoder": "^3.20.0",
+    "mediawiki-api": "0.1.8",
+    "basic-auth": "1.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
