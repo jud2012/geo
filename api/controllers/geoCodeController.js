@@ -1,12 +1,11 @@
-var cache = {maps: {}, wiki: {}}; // caching mechanism- will keep the value of the requested URL's
-var usage_request = []; // caching mechanism- will keep a record of every requested URL
 var url = require('url');
 var request = require('request');
 var auth = require('basic-auth');
-
 const options = require('config.js');
 var NodeGeocoder = require('node-geocoder');
 var geocoder = NodeGeocoder(options);
+var cache = {maps: {}, wiki: {}}; // caching mechanism- will keep the value of the requested URL's
+var usage_request = []; // caching mechanism- will keep a record of every requested URL
 
 // get_address_coordinates function receive an address as param
 // the function convert the address to coordinates using node-geocoder
@@ -34,7 +33,7 @@ exports.get_address_coordinates = function(req, res) {
                     res.json({});
             })
             .catch(function(err) {
-                console.log(err);
+                response.json({succeedded: false});
             });
     }
 };
@@ -56,7 +55,7 @@ exports.get_places_near_by = function(req, res) {
         res.json(parseResult(result));
     }
     else{
-        request('https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=' + lon + '%7C' + lat + '&gsradius=10000&gslimit=10&format=json&prop=images', function (error, response, body) {
+        request('https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=' + lon + '%7C' + lat + '&gsradius=10000&gslimit=10&format=json&piprop=thumbnail&pithumbsize=144&pilimit=50', function (error, response, body) {
             //console.log('api');
             cache.wiki[lon+''+lat] = JSON.parse(response.body).query.geosearch;
             res.json(parseResult(JSON.parse(response.body).query.geosearch));
@@ -74,7 +73,7 @@ exports.get_requests = function(req, res) {
         res.end('Access denied')
     } else {
         res.json(usage_request);
-    }
+    }   
 };
 
 // purge_cache clean the cache
