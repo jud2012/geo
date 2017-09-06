@@ -33,7 +33,7 @@ exports.get_address_coordinates = function(req, res) {
                     res.json({});
             })
             .catch(function(err) {
-                response.json({succeedded: false});
+                res.json({succeedded: false});
             });
     }
 };
